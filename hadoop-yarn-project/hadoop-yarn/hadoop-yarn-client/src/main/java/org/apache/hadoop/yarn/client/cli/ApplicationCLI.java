@@ -984,6 +984,8 @@ public class ApplicationCLI extends YarnCLI {
       containerReportStr.print("\tNodeHttpAddress : ");
       containerReportStr.println(containerReport.getNodeHttpAddress() == null
           ? "N/A" : containerReport.getNodeHttpAddress());
+      containerReportStr.println(containerReport.getExposedPorts() == null
+          ? "N/A" : containerReport.getExposedPorts());
       containerReportStr.print("\tDiagnostics : ");
       containerReportStr.print(containerReport.getDiagnosticsInfo());
     } else {
@@ -1305,6 +1307,8 @@ public class ApplicationCLI extends YarnCLI {
           containerReport.getContainerState(), containerReport
               .getAssignedNode(), containerReport.getNodeHttpAddress() == null
                   ? "N/A" : containerReport.getNodeHttpAddress(),
+          containerReport.getExposedPorts() == null
+              ? "N/A" : containerReport.getExposedPorts(),
           containerReport.getLogUrl());
     }
     writer.flush();

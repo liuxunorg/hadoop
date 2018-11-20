@@ -65,7 +65,7 @@ public class TestKillAMPreemptionPolicy {
         MRBuilderUtils.newTaskAttemptId(MRBuilderUtils.newTaskId(
             MRBuilderUtils.newJobId(appId, 1), 1, TaskType.MAP), 0));
     List<Container> p = new ArrayList<Container>();
-    p.add(Container.newInstance(container, null, null, null, null, null));
+    p.add(Container.newInstance(container, null, null, null, null, null, null));
     when(mPctxt.getContainers(any(TaskType.class))).thenReturn(p);
 
     KillAMPreemptionPolicy policy = new KillAMPreemptionPolicy();

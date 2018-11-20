@@ -487,6 +487,6 @@ public class TestIncreaseAllocationExpirer {
         .getRMContainer(containerId);
     return Container.newInstance(
         containerId, rmContainer.getAllocatedNode(), null,
-            resource, null, null);
+            resource, null, null, null);
   }
 }

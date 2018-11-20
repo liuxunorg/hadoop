@@ -601,7 +601,7 @@ public class MRApp extends MRAppMaster {
         Token containerToken = newContainerToken(nodeId, "password".getBytes(),
               containerTokenIdentifier);
         Container container = Container.newInstance(cId, nodeId,
-            NM_HOST + ":" + NM_HTTP_PORT, resource, null, containerToken);
+            NM_HOST + ":" + NM_HTTP_PORT, resource, null, containerToken, null);
         JobID id = TypeConverter.fromYarn(applicationId);
         JobId jobId = TypeConverter.toYarn(id);
         getContext().getEventHandler().handle(new JobHistoryEvent(jobId, 

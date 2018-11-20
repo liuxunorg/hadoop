@@ -258,7 +258,7 @@ public class MRAppBenchmark {
                         NodeId.newInstance(
                             "host" + containerId.getContainerId(), 2345),
                         "host" + containerId.getContainerId() + ":5678",
-                        req.getCapability(), req.getPriority(), null));
+                        req.getCapability(), req.getPriority(), null, null));
                   }
                 }
 

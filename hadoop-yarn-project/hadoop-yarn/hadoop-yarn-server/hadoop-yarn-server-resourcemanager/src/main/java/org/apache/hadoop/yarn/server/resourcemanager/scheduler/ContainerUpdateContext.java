@@ -165,7 +165,7 @@ public class ContainerUpdateContext {
             schedulerKey, Container.newInstance(UNDEFINED,
                 schedulerNode.getNodeID(), "host:port",
                 pendingAsk.getPerAllocationResource(),
-                schedulerKey.getPriority(), null));
+                schedulerKey.getPriority(), null, null));
       }
     }
   }
@@ -319,7 +319,7 @@ public class ContainerUpdateContext {
         existingRMContainer.getContainer().getNodeHttpAddress(),
         updatedResource,
         existingRMContainer.getContainer().getPriority(), null,
-        tempContainer.getExecutionType());
+        tempContainer.getExecutionType(), null);
     newContainer.setAllocationRequestId(
         existingRMContainer.getContainer().getAllocationRequestId());
     newContainer.setVersion(existingRMContainer.getContainer().getVersion());

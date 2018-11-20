@@ -19,10 +19,12 @@
 package org.apache.hadoop.yarn.server.resourcemanager.scheduler;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -31,6 +33,8 @@ import java.util.TimerTask;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.classification.InterfaceAudience.Private;
@@ -586,7 +590,7 @@ public abstract class AbstractYarnScheduler
     Container container =
         Container.newInstance(status.getContainerId(), node.getNodeID(),
           node.getHttpAddress(), status.getAllocatedResource(),
-          status.getPriority(), null);
+          status.getPriority(), null, null);
     container.setVersion(status.getVersion());
     container.setExecutionType(status.getExecutionType());
     container.setAllocationRequestId(status.getAllocationRequestId());
@@ -1008,11 +1012,14 @@ public abstract class AbstractYarnScheduler
         new ArrayList<>();
     List<ContainerStatus> completedContainers =
         new ArrayList<>();
+    List<Map.Entry<ApplicationId, ContainerStatus>> updateExistContainers =
+        new ArrayList<>();
 
     for(UpdatedContainerInfo containerInfo : containerInfoList) {
       newlyLaunchedContainers
           .addAll(containerInfo.getNewlyLaunchedContainers());
       completedContainers.addAll(containerInfo.getCompletedContainers());
+      updateExistContainers.addAll(containerInfo.getUpdateExistContainers());
     }
 
     // Processing the newly launched containers
@@ -1026,6 +1033,26 @@ public abstract class AbstractYarnScheduler
         nm.pullNewlyIncreasedContainers();
     for (Container container : newlyIncreasedContainers) {
       containerIncreasedOnNode(container.getId(), schedulerNode, container);
+    }
+
+    // Processing the update exist containers
+    for (Map.Entry<ApplicationId, ContainerStatus> c : updateExistContainers) {
+      SchedulerApplication<T> app = applications.get(c.getKey());
+      ContainerId containerId = c.getValue().getContainerId();
+      String strExposedPorts = c.getValue().getExposedPorts();
+      Map<String, List<Map<String, String>>> exposedPorts = null;
+      if (null != strExposedPorts && !strExposedPorts.isEmpty()) {
+        Gson gson = new Gson();
+        Type type = new TypeToken<Map<String, List<Map<String, String>>>>(){}.getType();
+        exposedPorts = gson.fromJson(strExposedPorts, type);
+      }
+
+      RMContainer rmContainer = app.getCurrentAppAttempt().getRMContainer(containerId);
+      if (null == rmContainer.getExposedPorts() || rmContainer.getExposedPorts().size() == 0) {
+        LOG.info("update exist container " + containerId.getContainerId()
+            + ", strExposedPorts = " + strExposedPorts);
+        rmContainer.setExposedPorts(exposedPorts);
+      }
     }
 
     return completedContainers;

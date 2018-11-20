@@ -279,7 +279,7 @@ public class MockResourceManagerFacade implements ApplicationClientProtocol,
           containersFromPreviousAttempt = new ArrayList<>();
           for (ContainerId containerId : applicationContainerIdMap.get(appId)) {
             containersFromPreviousAttempt.add(Container.newInstance(containerId,
-                null, null, null, null, null));
+                null, null, null, null, null, null));
           }
         } else if (!shouldReRegisterNext) {
           throw new InvalidApplicationMasterRequestException(
@@ -662,7 +662,7 @@ public class MockResourceManagerFacade implements ApplicationClientProtocol,
       List<ContainerId> ids = applicationContainerIdMap.get(appId);
       for (ContainerId c : ids) {
         containers.add(ContainerReport.newInstance(c, null, null, null, 0, 0,
-            null, null, 0, null, null));
+            null, null, 0, null, null, null));
       }
     }
     return GetContainersResponse.newInstance(containers);

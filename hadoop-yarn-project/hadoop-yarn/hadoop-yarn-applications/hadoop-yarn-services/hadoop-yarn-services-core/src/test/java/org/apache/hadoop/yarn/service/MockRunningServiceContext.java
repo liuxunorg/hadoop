@@ -153,7 +153,7 @@ public class MockRunningServiceContext extends ServiceContext {
     Container container = org.apache.hadoop.yarn.api.records.Container
         .newInstance(ContainerId.newContainerId(attemptId, containerNum),
             NODE_ID, "localhost", null, null,
-            null);
+            null, null);
     component.handle(new ComponentEvent(component.getName(),
         ComponentEventType.CONTAINER_ALLOCATED)
         .setContainer(container).setContainerId(container.getId()));

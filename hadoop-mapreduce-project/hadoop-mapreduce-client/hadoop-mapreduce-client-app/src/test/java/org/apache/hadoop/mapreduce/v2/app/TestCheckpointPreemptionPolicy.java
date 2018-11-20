@@ -126,7 +126,7 @@ public class TestCheckpointPreemptionPolicy {
           if (ent.getValue().getTaskId().getTaskType().equals(t)) {
             p.add(Container.newInstance(ent.getKey(), null, null,
                 contToResourceMap.get(ent.getKey()),
-                Priority.newInstance(0), null));
+                Priority.newInstance(0), null, null));
           }
         }
         return p;
@@ -169,7 +169,7 @@ public class TestCheckpointPreemptionPolicy {
           if(ent.getValue().getTaskId().getTaskType().equals(t)){
             p.add(Container.newInstance(ent.getKey(), null, null,
                 contToResourceMap.get(ent.getKey()),
-                Priority.newInstance(0), null));
+                Priority.newInstance(0), null, null));
           }
         }
         return p;

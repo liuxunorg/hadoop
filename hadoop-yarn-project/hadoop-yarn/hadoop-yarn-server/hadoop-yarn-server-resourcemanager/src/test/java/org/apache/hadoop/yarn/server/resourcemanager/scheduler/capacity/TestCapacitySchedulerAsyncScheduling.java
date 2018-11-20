@@ -256,7 +256,7 @@ public class TestCapacitySchedulerAsyncScheduling {
     Container container = Container.newInstance(
         ContainerId.newContainerId(am.getApplicationAttemptId(), 3),
         sn2.getNodeID(), sn2.getHttpAddress(), reservedResource,
-        Priority.newInstance(0), null);
+        Priority.newInstance(0), null, null);
     RMContainer rmContainer = new RMContainerImpl(container, SchedulerRequestKey
         .create(ResourceRequest
             .newInstance(Priority.newInstance(0), "*", reservedResource, 1)),
@@ -466,7 +466,7 @@ public class TestCapacitySchedulerAsyncScheduling {
       Container container = Container.newInstance(
           ContainerId.newContainerId(am.getApplicationAttemptId(), containerNo),
           sn1.getNodeID(), sn1.getHttpAddress(), containerResource,
-          Priority.newInstance(0), null);
+          Priority.newInstance(0), null, null);
       RMContainer rmContainer = new RMContainerImpl(container,
           SchedulerRequestKey.create(ResourceRequest
               .newInstance(Priority.newInstance(0), "*", containerResource, 1)),
@@ -824,7 +824,7 @@ public class TestCapacitySchedulerAsyncScheduling {
     Container container = Container.newInstance(
         ContainerId.newContainerId(schedulerApp.getApplicationAttemptId(), containerId),
         allocateNode.getNodeID(), allocateNode.getHttpAddress(), allocateResource,
-        Priority.newInstance(0), null);
+        Priority.newInstance(0), null, null);
     RMContainer rmContainer = new RMContainerImpl(container, SchedulerRequestKey
         .create(ResourceRequest
             .newInstance(Priority.newInstance(0), "*", allocateResource, 1)),

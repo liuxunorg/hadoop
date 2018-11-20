@@ -746,14 +746,14 @@ public class TestYarnClient extends ParameterizedSchedulerTestBase {
           ContainerId.newContainerId(attempt.getApplicationAttemptId(), 1), null,
           NodeId.newInstance("host", 1234), Priority.UNDEFINED, 1234, 5678,
           "diagnosticInfo", "logURL", 0, ContainerState.RUNNING,
-          "http://" + NodeId.newInstance("host", 2345).toString());
+          "http://" + NodeId.newInstance("host", 2345).toString(), null);
       containerReports.add(container);
 
       ContainerReport container1 = ContainerReport.newInstance(
           ContainerId.newContainerId(attempt.getApplicationAttemptId(), 2), null,
           NodeId.newInstance("host", 1234), Priority.UNDEFINED, 1234, 5678,
           "diagnosticInfo", "logURL", 0, ContainerState.RUNNING,
-          "http://" + NodeId.newInstance("host", 2345).toString());
+          "http://" + NodeId.newInstance("host", 2345).toString(), null);
       containerReports.add(container1);
       containers.put(attempt.getApplicationAttemptId(), containerReports);
       
@@ -765,20 +765,20 @@ public class TestYarnClient extends ParameterizedSchedulerTestBase {
           ContainerId.newContainerId(attempt.getApplicationAttemptId(), 1), null,
           NodeId.newInstance("host", 1234), Priority.UNDEFINED, 1234, 5678,
           "diagnosticInfo", "logURL", 0, null,
-          "http://" + NodeId.newInstance("host", 2345).toString());
+          "http://" + NodeId.newInstance("host", 2345).toString(), null);
       containerReportsForAHS.add(container);
 
       container1 = ContainerReport.newInstance(
           ContainerId.newContainerId(attempt.getApplicationAttemptId(), 2), null,
           NodeId.newInstance("host", 1234), Priority.UNDEFINED, 1234, 5678,
           "diagnosticInfo", "HSlogURL", 0, null,
-          "http://" + NodeId.newInstance("host", 2345).toString());
+          "http://" + NodeId.newInstance("host", 2345).toString(), null);
       containerReportsForAHS.add(container1);
       ContainerReport container2 = ContainerReport.newInstance(
           ContainerId.newContainerId(attempt.getApplicationAttemptId(),3), null,
           NodeId.newInstance("host", 1234), Priority.UNDEFINED, 1234, 5678,
           "diagnosticInfo", "HSlogURL", 0, ContainerState.COMPLETE,
-          "http://" + NodeId.newInstance("host", 2345).toString());
+          "http://" + NodeId.newInstance("host", 2345).toString(), null);
       containerReportsForAHS.add(container2);
       containersFromAHS.put(attempt.getApplicationAttemptId(), containerReportsForAHS);
 

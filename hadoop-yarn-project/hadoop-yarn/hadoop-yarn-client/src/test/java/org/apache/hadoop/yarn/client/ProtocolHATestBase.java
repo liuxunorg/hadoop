@@ -697,7 +697,7 @@ public abstract class ProtocolHATestBase extends ClientBaseWithFixes {
       return ContainerReport.newInstance(createFakeContainerId(), null,
           NodeId.newInstance("localhost", 0), null, 1000L, 1200L, "", "", 0,
           ContainerState.COMPLETE,
-          "http://" + NodeId.newInstance("localhost", 0).toString());
+          "http://" + NodeId.newInstance("localhost", 0).toString(), null);
     }
 
     public List<ContainerReport> createFakeContainerReports() {

@@ -26,6 +26,9 @@ import org.apache.hadoop.yarn.api.records.NodeId;
 import org.apache.hadoop.yarn.api.records.Priority;
 import org.apache.hadoop.yarn.api.records.Resource;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * The class contains all the fields that are stored persistently for
  * <code>RMContainer</code>.
@@ -52,12 +55,15 @@ public class ContainerHistoryData {
 
   private ContainerState containerState;
 
+  private Map<String, List<Map<String, String>>> exposedPorts;
+
   @Public
   @Unstable
   public static ContainerHistoryData newInstance(ContainerId containerId,
       Resource allocatedResource, NodeId assignedNode, Priority priority,
       long startTime, long finishTime, String diagnosticsInfo,
-      int containerExitCode, ContainerState containerState) {
+      int containerExitCode, ContainerState containerState,
+      Map<String, List<Map<String, String>>> exposedPorts) {
     ContainerHistoryData containerHD = new ContainerHistoryData();
     containerHD.setContainerId(containerId);
     containerHD.setAllocatedResource(allocatedResource);
@@ -68,6 +74,7 @@ public class ContainerHistoryData {
     containerHD.setDiagnosticsInfo(diagnosticsInfo);
     containerHD.setContainerExitStatus(containerExitCode);
     containerHD.setContainerState(containerState);
+    containerHD.setExposedPorts(exposedPorts);
     return containerHD;
   }
 
@@ -179,4 +186,11 @@ public class ContainerHistoryData {
     this.containerState = containerState;
   }
 
+  public Map<String, List<Map<String, String>>> getExposedPorts() {
+    return exposedPorts;
+  }
+
+  public void setExposedPorts(Map<String, List<Map<String, String>>> exposedPorts) {
+    this.exposedPorts = exposedPorts;
+  }
 }

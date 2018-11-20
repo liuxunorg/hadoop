@@ -28,6 +28,8 @@ import org.apache.hadoop.yarn.api.ContainerManagementProtocol;
 import org.apache.hadoop.yarn.util.Records;
 
 import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -69,20 +71,22 @@ public abstract class Container implements Comparable<Container> {
   @Unstable
   public static Container newInstance(ContainerId containerId, NodeId nodeId,
       String nodeHttpAddress, Resource resource, Priority priority,
-      Token containerToken) {
+      Token containerToken, Map<String, List<Map<String, String>>> ports) {
     return newInstance(containerId, nodeId, nodeHttpAddress, resource, priority,
-        containerToken, ExecutionType.GUARANTEED);
+        containerToken, ExecutionType.GUARANTEED, ports);
   }
 
   @Private
   @Unstable
   public static Container newInstance(ContainerId containerId, NodeId nodeId,
       String nodeHttpAddress, Resource resource, Priority priority,
-      Token containerToken, ExecutionType executionType) {
+      Token containerToken, ExecutionType executionType,
+      Map<String, List<Map<String, String>>> ports) {
     Container container = Records.newRecord(Container.class);
     container.setId(containerId);
     container.setNodeId(nodeId);
     container.setNodeHttpAddress(nodeHttpAddress);
+    container.setExposedPorts(ports);
     container.setResource(resource);
     container.setPriority(priority);
     container.setContainerToken(containerToken);
@@ -125,7 +129,19 @@ public abstract class Container implements Comparable<Container> {
   @Private
   @Unstable
   public abstract void setNodeHttpAddress(String nodeHttpAddress);
-  
+
+  /**
+   * Get the exposed ports of the node on which the container is allocated.
+   * @return exposed ports of the node on which the container is allocated
+   */
+  @Public
+  @Stable
+  public abstract Map<String, List<Map<String, String>>> getExposedPorts();
+
+  @Private
+  @Unstable
+  public abstract void setExposedPorts(Map<String, List<Map<String, String>>> ports);
+
   /**
    * Get the <code>Resource</code> allocated to the container.
    * @return <code>Resource</code> allocated to the container

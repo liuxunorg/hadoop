@@ -321,7 +321,7 @@ public class FileSystemApplicationHistoryStore extends AbstractService
       ContainerHistoryData historyData =
           ContainerHistoryData
             .newInstance(containerId, null, null, null, Long.MIN_VALUE,
-              Long.MAX_VALUE, null, Integer.MAX_VALUE, null);
+              Long.MAX_VALUE, null, Integer.MAX_VALUE, null, null);
       while ((!readStartData || !readFinishData) && hfReader.hasNext()) {
         HistoryFileReader.Entry entry = hfReader.next();
         if (entry.key.id.equals(containerId.toString())) {
@@ -388,7 +388,7 @@ public class FileSystemApplicationHistoryStore extends AbstractService
             if (historyData == null) {
               historyData = ContainerHistoryData.newInstance(
                   containerId, null, null, null, Long.MIN_VALUE,
-                  Long.MAX_VALUE, null, Integer.MAX_VALUE, null);
+                  Long.MAX_VALUE, null, Integer.MAX_VALUE, null, null);
               historyDataMap.put(containerId, historyData);
             }
             if (entry.key.suffix.equals(START_DATA_SUFFIX)) {

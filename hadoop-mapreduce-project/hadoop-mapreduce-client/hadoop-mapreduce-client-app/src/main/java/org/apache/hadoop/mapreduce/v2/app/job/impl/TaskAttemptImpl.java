@@ -1436,7 +1436,7 @@ public abstract class TaskAttemptImpl implements
     // an NM, these are already completed tasks, so setting them to null
     container =
         Container.newInstance(containerId, containerNodeId,
-          nodeHttpAddress, null, null, null);
+          nodeHttpAddress, null, null, null, null);
     computeRackAndLocality();
     launchTime = taInfo.getStartTime();
     finishTime = (taInfo.getFinishTime() != -1) ?

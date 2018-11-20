@@ -714,7 +714,7 @@ public class TestFederationInterceptor extends BaseAMRMProxyTest {
     ContainerStatus cStatus = Records.newRecord(ContainerStatus.class);
     cStatus.setContainerId(cid);
     Container container =
-        Container.newInstance(cid, null, null, null, null, null);
+        Container.newInstance(cid, null, null, null, null, null, null);
 
     AllocateResponse response = Records.newRecord(AllocateResponse.class);
     response.setAllocatedContainers(Collections.singletonList(container));

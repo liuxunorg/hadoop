@@ -358,7 +358,7 @@ public class MockServiceAM extends ServiceMaster {
     Container container = Container.newInstance(
         containerId, nodeId, "localhost",
         Resource.newInstance(100, 1),
-        Priority.newInstance(0), null);
+        Priority.newInstance(0), null, null);
     long allocateId =
         context.scheduler.getAllComponents().get(compName).getAllocateId();
     container.setAllocationRequestId(allocateId);

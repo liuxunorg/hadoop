@@ -18,6 +18,7 @@
 
 package org.apache.hadoop.yarn.api.records.impl.pb;
 
+import com.google.gson.Gson;
 import org.apache.hadoop.classification.InterfaceAudience.Private;
 import org.apache.hadoop.classification.InterfaceStability.Unstable;
 import org.apache.hadoop.security.proto.SecurityProtos.TokenProto;
@@ -37,6 +38,8 @@ import org.apache.hadoop.yarn.proto.YarnProtos.ResourceProto;
 import org.apache.hadoop.yarn.proto.YarnProtos.ExecutionTypeProto;
 
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Private
@@ -53,6 +56,7 @@ public class ContainerPBImpl extends Container {
   private Priority priority = null;
   private Token containerToken = null;
   private Set<String> allocationTags = null;
+  protected Map<String, List<Map<String, String>>> exposedPorts = null;
 
   public ContainerPBImpl() {
     builder = ContainerProto.newBuilder();
@@ -113,6 +117,13 @@ public class ContainerPBImpl extends Container {
     if (this.allocationTags != null) {
       builder.clearAllocationTags();
       builder.addAllAllocationTags(this.allocationTags);
+    }
+    if (this.exposedPorts != null
+        && !((TokenPBImpl) this.exposedPorts).getProto().equals(
+        builder.getExposedPorts())) {
+      Gson gson = new Gson();
+      String strExposedPorts = gson.toJson(this.exposedPorts);
+      builder.setExposedPorts(strExposedPorts);
     }
   }
 
@@ -212,7 +223,29 @@ public class ContainerPBImpl extends Container {
       builder.clearResource();
     this.resource = resource;
   }
-  
+
+  @Override
+  public Map<String, List<Map<String, String>>> getExposedPorts() {
+    ContainerProtoOrBuilder p = viaProto ? proto : builder;
+    if (this.exposedPorts != null) {
+      return this.exposedPorts;
+    }
+    if (!p.hasExposedPorts()) {
+      return null;
+    }
+
+    return this.exposedPorts;
+  }
+
+  @Override
+  public void setExposedPorts(Map<String, List<Map<String, String>>> ports) {
+    maybeInitBuilder();
+    if (resource == null)
+      builder.clearExposedPorts();
+
+    this.exposedPorts = ports;
+  }
+
   @Override
   public Priority getPriority() {
     ContainerProtoOrBuilder p = viaProto ? proto : builder;

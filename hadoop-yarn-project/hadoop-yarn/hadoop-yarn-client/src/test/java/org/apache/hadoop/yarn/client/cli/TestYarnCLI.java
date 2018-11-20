@@ -280,7 +280,7 @@ public class TestYarnCLI {
     ContainerReport container = ContainerReport.newInstance(containerId, null,
         NodeId.newInstance("host", 1234), Priority.UNDEFINED, 1234, 5678,
         "diagnosticInfo", "logURL", 0, ContainerState.COMPLETE,
-        "http://" + NodeId.newInstance("host", 2345).toString());
+        "http://" + NodeId.newInstance("host", 2345).toString(), null);
     when(client.getContainerReport(any(ContainerId.class))).thenReturn(
         container);
     int result = cli.run(new String[] { "container", "-status",
@@ -318,15 +318,15 @@ public class TestYarnCLI {
     ContainerReport container = ContainerReport.newInstance(containerId, null,
         NodeId.newInstance("host", 1234), Priority.UNDEFINED, time1, time2,
         "diagnosticInfo", "logURL", 0, ContainerState.COMPLETE,
-        "http://" + NodeId.newInstance("host", 2345).toString());
+        "http://" + NodeId.newInstance("host", 2345).toString(), null);
     ContainerReport container1 = ContainerReport.newInstance(containerId1, null,
         NodeId.newInstance("host", 1234), Priority.UNDEFINED, time1, time2,
         "diagnosticInfo", "logURL", 0, ContainerState.COMPLETE,
-        "http://" + NodeId.newInstance("host", 2345).toString());
+        "http://" + NodeId.newInstance("host", 2345).toString(), null);
     ContainerReport container2 = ContainerReport.newInstance(containerId2, null,
         NodeId.newInstance("host", 1234), Priority.UNDEFINED, time1,0,
         "diagnosticInfo", "", 0, ContainerState.RUNNING,
-        "http://" + NodeId.newInstance("host", 2345).toString());
+        "http://" + NodeId.newInstance("host", 2345).toString(), null);
     List<ContainerReport> reports = new ArrayList<ContainerReport>();
     reports.add(container);
     reports.add(container1);

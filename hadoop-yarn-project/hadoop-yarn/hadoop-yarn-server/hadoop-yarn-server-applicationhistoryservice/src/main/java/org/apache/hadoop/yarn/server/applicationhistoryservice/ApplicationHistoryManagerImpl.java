@@ -215,7 +215,8 @@ public class ApplicationHistoryManagerImpl extends AbstractService implements
       containerHistory.getStartTime(), containerHistory.getFinishTime(),
       containerHistory.getDiagnosticsInfo(), logUrl,
       containerHistory.getContainerExitStatus(),
-      containerHistory.getContainerState(), null);
+      containerHistory.getContainerState(), null,
+      containerHistory.getExposedPorts());
   }
 
   @Override

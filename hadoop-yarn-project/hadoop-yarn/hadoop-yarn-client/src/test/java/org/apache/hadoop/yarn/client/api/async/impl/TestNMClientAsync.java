@@ -249,7 +249,7 @@ public class TestNMClientAsync {
         // make sure we pass in the container with the same
         // containerId
         Container container = Container.newInstance(
-            containerId, nodeId, null, null, null, containerToken);
+            containerId, nodeId, null, null, null, containerToken, null);
         int t = containerId.getId() % 5;
         switch (t) {
         case 0:
@@ -294,7 +294,7 @@ public class TestNMClientAsync {
       // make sure we pass in the container with the same
       // containerId
       Container container = Container.newInstance(
-          containerId, nodeId, null, null, null, containerToken);
+          containerId, nodeId, null, null, null, containerToken, null);
       asyncClient.updateContainerResourceAsync(container);
 
       // Shouldn't crash the test thread
@@ -918,6 +918,6 @@ public class TestNMClientAsync {
     // Create an empty record
     containerToken = recordFactory.newRecordInstance(Token.class);
     return Container.newInstance(containerId, nodeId, null, null, null,
-      containerToken);
+      containerToken, null);
   }
 }

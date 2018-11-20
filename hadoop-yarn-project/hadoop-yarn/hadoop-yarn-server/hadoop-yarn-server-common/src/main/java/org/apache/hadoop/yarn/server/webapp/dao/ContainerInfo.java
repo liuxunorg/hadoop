@@ -18,13 +18,20 @@
 
 package org.apache.hadoop.yarn.server.webapp.dao;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.apache.hadoop.classification.InterfaceAudience.Public;
 import org.apache.hadoop.classification.InterfaceStability.Evolving;
 
@@ -55,6 +62,7 @@ public class ContainerInfo {
   protected String nodeHttpAddress;
   protected String nodeId;
   protected Map<String, Long> allocatedResources;
+  protected String exposedPorts;
 
   public ContainerInfo() {
     // JAXB needs this
@@ -76,9 +84,9 @@ public class ContainerInfo {
     containerState = container.getContainerState();
     nodeHttpAddress = container.getNodeHttpAddress();
     nodeId = container.getAssignedNode().toString();
+    exposedPorts = container.getExposedPorts();
 
     Resource allocated = container.getAllocatedResource();
-
     if (allocated != null) {
       allocatedMB = allocated.getMemorySize();
       allocatedVCores = allocated.getVirtualCores();
@@ -158,5 +166,9 @@ public class ContainerInfo {
    */
   public Map<String, Long> getAllocatedResources() {
     return Collections.unmodifiableMap(allocatedResources);
+  }
+
+  public String getExposedPorts() {
+    return exposedPorts;
   }
 }

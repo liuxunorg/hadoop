@@ -234,7 +234,7 @@ public class MemoryApplicationHistoryStore extends AbstractService implements
             containerStart.getAllocatedResource(),
             containerStart.getAssignedNode(), containerStart.getPriority(),
             containerStart.getStartTime(), Long.MAX_VALUE, null,
-            Integer.MAX_VALUE, null));
+            Integer.MAX_VALUE, null, null));
     if (oldData != null) {
       throw new IOException("The start information of container "
           + containerStart.getContainerId() + " is already stored.");

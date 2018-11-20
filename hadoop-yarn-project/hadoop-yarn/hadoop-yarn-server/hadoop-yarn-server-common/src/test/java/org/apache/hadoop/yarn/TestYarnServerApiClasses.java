@@ -421,7 +421,7 @@ public class TestYarnServerApiClasses {
     ContainerId containerId = getContainerId(containerID, appAttemptId);
     Resource capability = Resource.newInstance(memory, vCores);
     return Container.newInstance(
-        containerId, null, null, capability, null, null);
+        containerId, null, null, capability, null, null, null);
   }
 
   private Container getIncreasedContainer(int containerID,
@@ -429,7 +429,7 @@ public class TestYarnServerApiClasses {
     ContainerId containerId = getContainerId(containerID, appAttemptId);
     Resource capability = Resource.newInstance(memory, vCores);
     return Container.newInstance(
-        containerId, null, null, capability, null, null);
+        containerId, null, null, capability, null, null, null);
   }
 
   private NodeStatus getNodeStatus() {

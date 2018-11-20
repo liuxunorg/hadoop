@@ -23,6 +23,9 @@ import org.apache.hadoop.classification.InterfaceAudience.Public;
 import org.apache.hadoop.classification.InterfaceStability.Unstable;
 import org.apache.hadoop.yarn.util.Records;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * {@code ContainerReport} is a report of an container.
  * <p>
@@ -51,10 +54,10 @@ public abstract class ContainerReport {
       Resource allocatedResource, NodeId assignedNode, Priority priority,
       long creationTime, long finishTime, String diagnosticInfo, String logUrl,
       int containerExitStatus, ContainerState containerState,
-      String nodeHttpAddress) {
+      String nodeHttpAddress, Map<String, List<Map<String, String>>> exposedPorts) {
     return newInstance(containerId, allocatedResource, assignedNode, priority,
         creationTime, finishTime, diagnosticInfo, logUrl, containerExitStatus,
-        containerState, nodeHttpAddress, ExecutionType.GUARANTEED);
+        containerState, nodeHttpAddress, ExecutionType.GUARANTEED, exposedPorts);
   }
 
   @Private
@@ -63,7 +66,8 @@ public abstract class ContainerReport {
       Resource allocatedResource, NodeId assignedNode, Priority priority,
       long creationTime, long finishTime, String diagnosticInfo, String logUrl,
       int containerExitStatus, ContainerState containerState,
-      String nodeHttpAddress, ExecutionType executionType) {
+      String nodeHttpAddress, ExecutionType executionType,
+      Map<String, List<Map<String, String>>> exposedPorts) {
     ContainerReport report = Records.newRecord(ContainerReport.class);
     report.setContainerId(containerId);
     report.setAllocatedResource(allocatedResource);
@@ -76,6 +80,7 @@ public abstract class ContainerReport {
     report.setContainerExitStatus(containerExitStatus);
     report.setContainerState(containerState);
     report.setNodeHttpAddress(nodeHttpAddress);
+    report.setExposedPorts(exposedPorts);
     report.setExecutionType(executionType);
     return report;
   }
@@ -211,8 +216,21 @@ public abstract class ContainerReport {
   public abstract void setContainerExitStatus(int containerExitStatus);
 
   /**
-   * Get the Node Http address of the container
+   * Get exposed ports of the container
    * 
+   * @return the node exposed ports of the container
+   */
+  @Public
+  @Unstable
+  public abstract String getExposedPorts();
+
+  @Private
+  @Unstable
+  public abstract void setExposedPorts(Map<String, List<Map<String, String>>> ports);
+
+  /**
+   * Get the Node Http address of the container
+   *
    * @return the node http address of the container
    */
   @Public
