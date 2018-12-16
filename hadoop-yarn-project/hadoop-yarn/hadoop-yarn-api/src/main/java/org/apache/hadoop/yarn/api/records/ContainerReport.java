@@ -54,10 +54,10 @@ public abstract class ContainerReport {
       Resource allocatedResource, NodeId assignedNode, Priority priority,
       long creationTime, long finishTime, String diagnosticInfo, String logUrl,
       int containerExitStatus, ContainerState containerState,
-      String nodeHttpAddress, Map<String, List<Map<String, String>>> exposedPorts) {
+      String nodeHttpAddress, Map<String, List<Map<String, String>>> ports) {
     return newInstance(containerId, allocatedResource, assignedNode, priority,
         creationTime, finishTime, diagnosticInfo, logUrl, containerExitStatus,
-        containerState, nodeHttpAddress, ExecutionType.GUARANTEED, exposedPorts);
+        containerState, nodeHttpAddress, ExecutionType.GUARANTEED, ports);
   }
 
   @Private
@@ -216,7 +216,7 @@ public abstract class ContainerReport {
   public abstract void setContainerExitStatus(int containerExitStatus);
 
   /**
-   * Get exposed ports of the container
+   * Get exposed ports of the container.
    * 
    * @return the node exposed ports of the container
    */
@@ -226,10 +226,11 @@ public abstract class ContainerReport {
 
   @Private
   @Unstable
-  public abstract void setExposedPorts(Map<String, List<Map<String, String>>> ports);
+  public abstract void setExposedPorts(
+      Map<String, List<Map<String, String>>> ports);
 
   /**
-   * Get the Node Http address of the container
+   * Get the Node Http address of the container.
    *
    * @return the node http address of the container
    */

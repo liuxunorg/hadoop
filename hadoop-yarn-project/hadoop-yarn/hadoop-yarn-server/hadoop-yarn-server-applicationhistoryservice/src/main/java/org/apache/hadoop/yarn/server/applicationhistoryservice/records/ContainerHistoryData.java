@@ -190,7 +190,7 @@ public class ContainerHistoryData {
     return exposedPorts;
   }
 
-  public void setExposedPorts(Map<String, List<Map<String, String>>> exposedPorts) {
-    this.exposedPorts = exposedPorts;
+  public void setExposedPorts(Map<String, List<Map<String, String>>> ports) {
+    this.exposedPorts = ports;
   }
 }

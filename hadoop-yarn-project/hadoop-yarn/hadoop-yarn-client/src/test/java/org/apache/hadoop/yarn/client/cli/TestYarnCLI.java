@@ -96,11 +96,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.eclipse.jetty.util.log.Log;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 
 public class TestYarnCLI {
-
+  private static final Logger LOG = LoggerFactory.getLogger(TestYarnCLI.class);
   private YarnClient client = mock(YarnClient.class);
   ByteArrayOutputStream sysOutStream;
   private PrintStream sysOut;
@@ -277,10 +280,11 @@ public class TestYarnCLI {
     ApplicationAttemptId attemptId = ApplicationAttemptId.newInstance(
         applicationId, 1);
     ContainerId containerId = ContainerId.newContainerId(attemptId, 1);
+    Map<String, List<Map<String, String>>> ports = new HashMap<>();
     ContainerReport container = ContainerReport.newInstance(containerId, null,
         NodeId.newInstance("host", 1234), Priority.UNDEFINED, 1234, 5678,
         "diagnosticInfo", "logURL", 0, ContainerState.COMPLETE,
-        "http://" + NodeId.newInstance("host", 2345).toString(), null);
+        "http://" + NodeId.newInstance("host", 2345).toString(), ports);
     when(client.getContainerReport(any(ContainerId.class))).thenReturn(
         container);
     int result = cli.run(new String[] { "container", "-status",
@@ -298,9 +302,15 @@ public class TestYarnCLI {
     pw.println("\tLOG-URL : logURL");
     pw.println("\tHost : host:1234");
     pw.println("\tNodeHttpAddress : http://host:2345");
+    pw.println("\tExposedPorts : {}");
     pw.println("\tDiagnostics : diagnosticInfo");
     pw.close();
     String appReportStr = baos.toString("UTF-8");
+
+    // TODO(liuxun) TEMP
+    LOG.debug("appReportStr=[" + appReportStr + "]");
+    LOG.debug("sysOutStream=[" + sysOutStream.toString() + "]");
+
     Assert.assertEquals(appReportStr, sysOutStream.toString());
     verify(sysOut, times(1)).println(isA(String.class));
   }
@@ -315,18 +325,19 @@ public class TestYarnCLI {
     ContainerId containerId1 = ContainerId.newContainerId(attemptId, 2);
     ContainerId containerId2 = ContainerId.newContainerId(attemptId, 3);
     long time1=1234,time2=5678;
+    Map<String, List<Map<String, String>>> ports = new HashMap<>();
     ContainerReport container = ContainerReport.newInstance(containerId, null,
         NodeId.newInstance("host", 1234), Priority.UNDEFINED, time1, time2,
         "diagnosticInfo", "logURL", 0, ContainerState.COMPLETE,
-        "http://" + NodeId.newInstance("host", 2345).toString(), null);
+        "http://" + NodeId.newInstance("host", 2345).toString(), ports);
     ContainerReport container1 = ContainerReport.newInstance(containerId1, null,
         NodeId.newInstance("host", 1234), Priority.UNDEFINED, time1, time2,
         "diagnosticInfo", "logURL", 0, ContainerState.COMPLETE,
-        "http://" + NodeId.newInstance("host", 2345).toString(), null);
+        "http://" + NodeId.newInstance("host", 2345).toString(), ports);
     ContainerReport container2 = ContainerReport.newInstance(containerId2, null,
         NodeId.newInstance("host", 1234), Priority.UNDEFINED, time1,0,
         "diagnosticInfo", "", 0, ContainerState.RUNNING,
-        "http://" + NodeId.newInstance("host", 2345).toString(), null);
+        "http://" + NodeId.newInstance("host", 2345).toString(), ports);
     List<ContainerReport> reports = new ArrayList<ContainerReport>();
     reports.add(container);
     reports.add(container1);
@@ -347,13 +358,13 @@ public class TestYarnCLI {
         "Finish Time", "State", "Host", "Node Http Address", "LOG-URL");
     pw.printf(ApplicationCLI.CONTAINER_PATTERN, "container_1234_0005_01_000001",
         Times.format(time1), Times.format(time2),
-        "COMPLETE", "host:1234", "http://host:2345", "logURL");
+        "COMPLETE", "host:1234", "http://host:2345", "logURL", "{}");
     pw.printf(ApplicationCLI.CONTAINER_PATTERN, "container_1234_0005_01_000002",
         Times.format(time1), Times.format(time2),
-        "COMPLETE", "host:1234", "http://host:2345", "logURL");
+        "COMPLETE", "host:1234", "http://host:2345", "logURL", "{}");
     pw.printf(ApplicationCLI.CONTAINER_PATTERN, "container_1234_0005_01_000003",
         Times.format(time1), "N/A", "RUNNING", "host:1234",
-        "http://host:2345", "");
+        "http://host:2345", "", "{}");
     pw.close();
     String appReportStr = baos.toString("UTF-8");
     Log.getLog().info("ExpectedOutput");

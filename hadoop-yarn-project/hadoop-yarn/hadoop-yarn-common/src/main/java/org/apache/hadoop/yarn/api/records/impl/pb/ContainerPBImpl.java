@@ -56,7 +56,7 @@ public class ContainerPBImpl extends Container {
   private Priority priority = null;
   private Token containerToken = null;
   private Set<String> allocationTags = null;
-  protected Map<String, List<Map<String, String>>> exposedPorts = null;
+  private Map<String, List<Map<String, String>>> exposedPorts = null;
 
   public ContainerPBImpl() {
     builder = ContainerProto.newBuilder();
@@ -118,9 +118,7 @@ public class ContainerPBImpl extends Container {
       builder.clearAllocationTags();
       builder.addAllAllocationTags(this.allocationTags);
     }
-    if (this.exposedPorts != null
-        && !((TokenPBImpl) this.exposedPorts).getProto().equals(
-        builder.getExposedPorts())) {
+    if (this.exposedPorts != null) {
       Gson gson = new Gson();
       String strExposedPorts = gson.toJson(this.exposedPorts);
       builder.setExposedPorts(strExposedPorts);
@@ -219,8 +217,9 @@ public class ContainerPBImpl extends Container {
   @Override
   public void setResource(Resource resource) {
     maybeInitBuilder();
-    if (resource == null)
+    if (resource == null) {
       builder.clearResource();
+    }
     this.resource = resource;
   }
 
@@ -240,9 +239,9 @@ public class ContainerPBImpl extends Container {
   @Override
   public void setExposedPorts(Map<String, List<Map<String, String>>> ports) {
     maybeInitBuilder();
-    if (resource == null)
+    if (resource == null) {
       builder.clearExposedPorts();
-
+    }
     this.exposedPorts = ports;
   }
 
@@ -284,8 +283,9 @@ public class ContainerPBImpl extends Container {
   @Override
   public void setContainerToken(Token containerToken) {
     maybeInitBuilder();
-    if (containerToken == null) 
+    if (containerToken == null) {
       builder.clearContainerToken();
+    }
     this.containerToken = containerToken;
   }
 

@@ -140,7 +140,8 @@ public abstract class Container implements Comparable<Container> {
 
   @Private
   @Unstable
-  public abstract void setExposedPorts(Map<String, List<Map<String, String>>> ports);
+  public abstract void setExposedPorts(
+      Map<String, List<Map<String, String>>> ports);
 
   /**
    * Get the <code>Resource</code> allocated to the container.

@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.EnumSet;
-import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -1019,7 +1019,7 @@ public abstract class AbstractYarnScheduler
       newlyLaunchedContainers
           .addAll(containerInfo.getNewlyLaunchedContainers());
       completedContainers.addAll(containerInfo.getCompletedContainers());
-      updateExistContainers.addAll(containerInfo.getUpdateExistContainers());
+      updateExistContainers.addAll(containerInfo.getUpdateContainers());
     }
 
     // Processing the newly launched containers
@@ -1048,7 +1048,9 @@ public abstract class AbstractYarnScheduler
       }
 
       RMContainer rmContainer = app.getCurrentAppAttempt().getRMContainer(containerId);
-      if (null == rmContainer.getExposedPorts() || rmContainer.getExposedPorts().size() == 0) {
+      if (null != rmContainer &&
+          (null == rmContainer.getExposedPorts()
+              || rmContainer.getExposedPorts().size() == 0)) {
         LOG.info("update exist container " + containerId.getContainerId()
             + ", strExposedPorts = " + strExposedPorts);
         rmContainer.setExposedPorts(exposedPorts);

@@ -167,8 +167,10 @@ public class NodeInfo {
         list2.add(ContainerStatus.newInstance(cId, ContainerState.RUNNING, "", 
           ContainerExitStatus.SUCCESS));
       }
+      List<Map.Entry<ApplicationId, ContainerStatus>> needUpdateContainers =
+          new ArrayList<Map.Entry<ApplicationId, ContainerStatus>>();
       list.add(new UpdatedContainerInfo(new ArrayList<ContainerStatus>(), 
-        list2));
+        list2, needUpdateContainers));
       return list;
     }
 

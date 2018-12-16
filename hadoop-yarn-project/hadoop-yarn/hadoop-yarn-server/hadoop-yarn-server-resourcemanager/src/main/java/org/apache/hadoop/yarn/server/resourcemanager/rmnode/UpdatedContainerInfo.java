@@ -27,19 +27,18 @@ import org.apache.hadoop.yarn.api.records.ContainerStatus;
 public class UpdatedContainerInfo {
   private List<ContainerStatus> newlyLaunchedContainers;
   private List<ContainerStatus> completedContainers;
-
-  // applicationId -> ContainerStatus
-  private List<Map.Entry<ApplicationId, ContainerStatus>> updateExistContainers;
+  private List<Map.Entry<ApplicationId, ContainerStatus>> updateContainers;
   
   public UpdatedContainerInfo() {
   }
 
-  public UpdatedContainerInfo(List<ContainerStatus> newlyLaunchedContainers
-      , List<ContainerStatus> completedContainers
-      , List<Map.Entry<ApplicationId, ContainerStatus>> tobeUpdateContainers) {
+  public UpdatedContainerInfo(List<ContainerStatus> newlyLaunchedContainers,
+                              List<ContainerStatus> completedContainers,
+                              List<Map.Entry<ApplicationId, ContainerStatus>>
+                                  updateContainers) {
     this.newlyLaunchedContainers = newlyLaunchedContainers;
     this.completedContainers = completedContainers;
-    this.updateExistContainers = tobeUpdateContainers;
+    this.updateContainers = updateContainers;
   } 
 
   public List<ContainerStatus> getNewlyLaunchedContainers() {
@@ -50,7 +49,7 @@ public class UpdatedContainerInfo {
     return this.completedContainers;
   }
 
-  public List<Map.Entry<ApplicationId, ContainerStatus>> getUpdateExistContainers() {
-    return this.updateExistContainers;
+  public List<Map.Entry<ApplicationId, ContainerStatus>> getUpdateContainers() {
+    return this.updateContainers;
   }
 }
