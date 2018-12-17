@@ -281,6 +281,11 @@ public class TestYarnCLI {
         applicationId, 1);
     ContainerId containerId = ContainerId.newContainerId(attemptId, 1);
     Map<String, List<Map<String, String>>> ports = new HashMap<>();
+    ArrayList<Map<String, String>> list = new ArrayList();
+    HashMap<String, String> map = new HashMap();
+    map.put("abc", "123");
+    list.add(map);
+    ports.put("192.168.0.1", list);
     ContainerReport container = ContainerReport.newInstance(containerId, null,
         NodeId.newInstance("host", 1234), Priority.UNDEFINED, 1234, 5678,
         "diagnosticInfo", "logURL", 0, ContainerState.COMPLETE,
@@ -302,14 +307,10 @@ public class TestYarnCLI {
     pw.println("\tLOG-URL : logURL");
     pw.println("\tHost : host:1234");
     pw.println("\tNodeHttpAddress : http://host:2345");
-    pw.println("\tExposedPorts : {}");
+    pw.println("\tExposedPorts : {\"192.168.0.1\":[{\"abc\":\"123\"}]}");
     pw.println("\tDiagnostics : diagnosticInfo");
     pw.close();
     String appReportStr = baos.toString("UTF-8");
-
-    // TODO(liuxun) TEMP
-    LOG.debug("appReportStr=[" + appReportStr + "]");
-    LOG.debug("sysOutStream=[" + sysOutStream.toString() + "]");
 
     Assert.assertEquals(appReportStr, sysOutStream.toString());
     verify(sysOut, times(1)).println(isA(String.class));
@@ -358,13 +359,13 @@ public class TestYarnCLI {
         "Finish Time", "State", "Host", "Node Http Address", "LOG-URL");
     pw.printf(ApplicationCLI.CONTAINER_PATTERN, "container_1234_0005_01_000001",
         Times.format(time1), Times.format(time2),
-        "COMPLETE", "host:1234", "http://host:2345", "logURL", "{}");
+        "COMPLETE", "host:1234", "http://host:2345", "logURL");
     pw.printf(ApplicationCLI.CONTAINER_PATTERN, "container_1234_0005_01_000002",
         Times.format(time1), Times.format(time2),
-        "COMPLETE", "host:1234", "http://host:2345", "logURL", "{}");
+        "COMPLETE", "host:1234", "http://host:2345", "logURL");
     pw.printf(ApplicationCLI.CONTAINER_PATTERN, "container_1234_0005_01_000003",
         Times.format(time1), "N/A", "RUNNING", "host:1234",
-        "http://host:2345", "", "{}");
+        "http://host:2345", "");
     pw.close();
     String appReportStr = baos.toString("UTF-8");
     Log.getLog().info("ExpectedOutput");

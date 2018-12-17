@@ -1043,11 +1043,12 @@ public abstract class AbstractYarnScheduler
       Map<String, List<Map<String, String>>> exposedPorts = null;
       if (null != strExposedPorts && !strExposedPorts.isEmpty()) {
         Gson gson = new Gson();
-        Type type = new TypeToken<Map<String, List<Map<String, String>>>>(){}.getType();
-        exposedPorts = gson.fromJson(strExposedPorts, type);
+        exposedPorts = gson.fromJson(strExposedPorts,
+            new TypeToken<Map<String, List<Map<String, String>>>>(){}.getType());
       }
 
-      RMContainer rmContainer = app.getCurrentAppAttempt().getRMContainer(containerId);
+      RMContainer rmContainer
+          = app.getCurrentAppAttempt().getRMContainer(containerId);
       if (null != rmContainer &&
           (null == rmContainer.getExposedPorts()
               || rmContainer.getExposedPorts().size() == 0)) {

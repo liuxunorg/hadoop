@@ -1429,16 +1429,16 @@ public class RMNodeImpl implements RMNode, EventHandler<RMNodeEvent> {
         if (!updatedExistContainers.containsKey(containerId)) {
           needUpdate = true;
         } else {
-          ContainerStatus preContainer = updatedExistContainers.get(containerId);
-          if (null != preContainer) {
-            String preExposedPorts = preContainer.getExposedPorts();
+          ContainerStatus pContainer = updatedExistContainers.get(containerId);
+          if (null != pContainer) {
+            String preExposedPorts = pContainer.getExposedPorts();
             if (null != preExposedPorts &&
                 !preExposedPorts.equals(remoteContainer.getExposedPorts())) {
               needUpdate = true;
             }
           }
         }
-        if (true == needUpdate) {
+        if (needUpdate) {
           updatedExistContainers.put(containerId, remoteContainer);
           needUpdateContainers.add(new DefaultMapEntry(containerAppId,
               remoteContainer));

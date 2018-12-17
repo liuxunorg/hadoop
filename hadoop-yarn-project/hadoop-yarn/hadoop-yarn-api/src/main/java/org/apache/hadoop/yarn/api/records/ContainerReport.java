@@ -80,8 +80,8 @@ public abstract class ContainerReport {
     report.setContainerExitStatus(containerExitStatus);
     report.setContainerState(containerState);
     report.setNodeHttpAddress(nodeHttpAddress);
-    report.setExposedPorts(exposedPorts);
     report.setExecutionType(executionType);
+    report.setExposedPorts(exposedPorts);
     return report;
   }
 

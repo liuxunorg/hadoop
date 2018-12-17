@@ -44,7 +44,7 @@ public class AppAttemptInfo {
   protected String blacklistedNodes;
   private String nodesBlacklistedBySystem;
   protected String appAttemptId;
-  protected String exportPorts;
+  private String exportPorts;
 
   public AppAttemptInfo() {
   }

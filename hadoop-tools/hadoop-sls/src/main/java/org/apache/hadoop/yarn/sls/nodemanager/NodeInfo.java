@@ -169,8 +169,8 @@ public class NodeInfo {
       }
       List<Map.Entry<ApplicationId, ContainerStatus>> needUpdateContainers =
           new ArrayList<Map.Entry<ApplicationId, ContainerStatus>>();
-      list.add(new UpdatedContainerInfo(new ArrayList<ContainerStatus>(), 
-        list2, needUpdateContainers));
+      list.add(new UpdatedContainerInfo(new ArrayList<ContainerStatus>(),
+          list2, needUpdateContainers));
       return list;
     }
 

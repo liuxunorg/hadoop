@@ -19,6 +19,7 @@
 package org.apache.hadoop.yarn.api.records.impl.pb;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.apache.hadoop.classification.InterfaceAudience.Private;
 import org.apache.hadoop.classification.InterfaceStability.Unstable;
 import org.apache.hadoop.security.proto.SecurityProtos.TokenProto;
@@ -37,6 +38,7 @@ import org.apache.hadoop.yarn.proto.YarnProtos.PriorityProto;
 import org.apache.hadoop.yarn.proto.YarnProtos.ResourceProto;
 import org.apache.hadoop.yarn.proto.YarnProtos.ExecutionTypeProto;
 
+import java.lang.reflect.Type;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -232,6 +234,10 @@ public class ContainerPBImpl extends Container {
     if (!p.hasExposedPorts()) {
       return null;
     }
+    String ports = p.getExposedPorts();
+    Gson gson = new Gson();
+    this.exposedPorts = gson.fromJson(ports,
+        new TypeToken<Map<String, List<Map<String, String>>>>(){}.getType());
 
     return this.exposedPorts;
   }

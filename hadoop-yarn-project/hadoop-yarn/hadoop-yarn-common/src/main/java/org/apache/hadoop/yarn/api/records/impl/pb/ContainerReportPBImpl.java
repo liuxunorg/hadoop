@@ -219,11 +219,14 @@ public class ContainerReportPBImpl extends ContainerReport {
 
   @Override
   public void setExposedPorts(Map<String, List<Map<String, String>>> ports) {
-    String strPorts = "";
-    if (null != ports) {
-      Gson gson = new Gson();
-      strPorts = gson.toJson(ports);
+    maybeInitBuilder();
+    if (ports == null) {
+      builder.clearExposedPorts();
+      return;
     }
+    String strPorts = new String();
+    Gson gson = new Gson();
+    strPorts = gson.toJson(ports);
     builder.setExposedPorts(strPorts);
   }
 
@@ -259,7 +262,6 @@ public class ContainerReportPBImpl extends ContainerReport {
   }
 
   public ContainerReportProto getProto() {
-
     mergeLocalToProto();
     proto = viaProto ? proto : builder.build();
     viaProto = true;
