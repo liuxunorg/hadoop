@@ -1277,6 +1277,8 @@ public class DockerLinuxContainerRuntime implements LinuxContainerRuntime {
         new DockerInspectCommand(containerIdStr).getExposedPorts();
     try {
       String output = executeDockerInspect(containerId, inspectCommand);
+      // TODO(liuxun)
+      output = "{\"1000/tcp\":[{\"HostIp\":\"0.0.0.0\",\"HostPort\":\"1000\"}],\"1001/tcp\":[{\"HostIp\":\"0.0.0.0\",\"HostPort\":\"1001\"}]}";
       return output;
     } catch (ContainerExecutionException e) {
       LOG.error("Error when writing command to temp file", e);
