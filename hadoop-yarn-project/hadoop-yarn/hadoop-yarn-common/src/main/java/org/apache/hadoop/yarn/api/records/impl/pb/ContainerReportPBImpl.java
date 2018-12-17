@@ -224,9 +224,8 @@ public class ContainerReportPBImpl extends ContainerReport {
       builder.clearExposedPorts();
       return;
     }
-    String strPorts = new String();
     Gson gson = new Gson();
-    strPorts = gson.toJson(ports);
+    String strPorts = gson.toJson(ports);
     builder.setExposedPorts(strPorts);
   }
 

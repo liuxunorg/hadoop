@@ -19,7 +19,6 @@
 package org.apache.hadoop.yarn.server.resourcemanager.scheduler;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -1044,7 +1043,8 @@ public abstract class AbstractYarnScheduler
       if (null != strExposedPorts && !strExposedPorts.isEmpty()) {
         Gson gson = new Gson();
         exposedPorts = gson.fromJson(strExposedPorts,
-            new TypeToken<Map<String, List<Map<String, String>>>>(){}.getType());
+            new TypeToken<Map<String, List<Map<String, String>>>>()
+            {}.getType());
       }
 
       RMContainer rmContainer
